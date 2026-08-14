@@ -1,0 +1,4 @@
+# AI学習・変換に使う共通パッケージ (バージョンは環境構築時に固定すること)
+ultralytics    # YOLOv8の学習
+onnx           # ONNX形式への変換 (Unity Sentisで読む)
+onnxruntime    # 変換後の動作確認用

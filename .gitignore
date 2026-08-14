@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# 学習データ・成果物 (実体はリポジトリに入れない。置き場所はチームで相談)
+datasets/
+runs/
+*.pt
+*.onnx
+*.tflite
+
+# Firebaseの秘密鍵 (絶対にコミットしない)
+*firebase-adminsdk*.json
+serviceAccountKey.json
+
+# OS / エディタ
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
