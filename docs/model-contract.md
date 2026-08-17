@@ -34,7 +34,6 @@ TreeDetection {
 
 この値は森林簿 (`forestry/` で入れた forest_registry) の樹種・林齢からアプリが簡易式で
 自動算出した初期値を、ユーザーが修正したもの。AI側はこの値をそのまま判定に使えばOK
-(算出式はアプリ側の ThinningCalculator.cs にある。良くしたい人はそこを見て → 将来はML化したい)
 
 ## 3. モデルの入出力 
 
