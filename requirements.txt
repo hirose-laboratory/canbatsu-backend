@@ -2,3 +2,8 @@
 ultralytics    # YOLOv8の学習
 onnx           # ONNX形式への変換 (Unity Sentisで読む)
 onnxruntime    # 変換後の動作確認用
+
+# 森林簿データ変換 (forestry/)
+pyshp          # シェープファイル読み込み
+pyproj         # 平面直角座標系→緯度経度の変換
+firebase-admin # Firestoreへのアップロード

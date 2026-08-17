@@ -20,3 +20,6 @@ serviceAccountKey.json
 Thumbs.db
 .vscode/
 .idea/
+
+# 森林簿の変換結果 (デカいのでコミットしない。convert_shinrinbo.pyで再生成できる)
+forestry/output/
