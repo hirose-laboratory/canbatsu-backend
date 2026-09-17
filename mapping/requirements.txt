@@ -1,0 +1,3 @@
+numpy
+firebase-admin
+pillow  # --flip-v (画像の縦反転試行) のときだけ使う
