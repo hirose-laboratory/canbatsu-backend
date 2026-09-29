@@ -38,7 +38,10 @@ def main():
 
     snap = doc_ref.get()
     carried = 0
+    anchor_geo = None
     if snap.exists:
+        # 基準点の地理情報 (アプリが書く。選木結果の地図表示に使う) は消さずに引き継ぐ
+        anchor_geo = snap.to_dict().get("anchorGeo")
         for old in snap.to_dict().get("trees", []):
             if not old.get("selected"):
                 continue
@@ -55,11 +58,14 @@ def main():
                 entries.append(old)  # 対応する木が無くても選木は消さない
             carried += 1
 
-    doc_ref.set({
+    data = {
         "trees": entries,
         "updatedAt": firestore.SERVER_TIMESTAMP,
         "source": "server",  # サーバーバッチ由来であることの目印 (アプリは読み飛ばすだけ)
-    })
+    }
+    if anchor_geo is not None:
+        data["anchorGeo"] = anchor_geo
+    doc_ref.set(data)
     print(f"[upload] {len(entries)}本 (選木引き継ぎ{carried}件) -> work_plans/{a.plan}/armap/state")
 
 
