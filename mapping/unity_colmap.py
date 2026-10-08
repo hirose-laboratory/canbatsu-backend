@@ -105,8 +105,20 @@ def load_session(session_dir):
     anchor = None
     aj = session_dir / "anchor.json"
     if aj.exists():
-        d = json.loads(aj.read_text(encoding="utf-8"))
-        anchor = {"pos": np.array(d["pos"], dtype=np.float64), "yaw": float(d["yawRad"])}
+        raw = aj.read_text(encoding="utf-8", errors="replace").strip().lstrip("﻿")
+        try:
+            d = json.loads(raw)
+            pos = np.array(d["pos"], dtype=np.float64)
+            yaw = float(d["yawRad"])
+            if pos.shape != (3,) or not np.all(np.isfinite(pos)) or not math.isfinite(yaw):
+                raise ValueError("位置か向きが数値でない (NaN/Infinity)")
+            anchor = {"pos": pos, "yaw": yaw}
+        except Exception as e:
+            # 壊れた基準点は「基準点なし」と同じ扱いにして、この計画の他のセッションは続ける
+            print(f"  [warn] anchor.json が読めません ({e}) -> このセッションは対象外")
+            print(f"         {aj}")
+            print(f"         中身: {raw[:200]!r}")
+            anchor = None
     return captures, anchor
 
 

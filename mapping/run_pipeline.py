@@ -44,7 +44,12 @@ def main():
     import build_map
     point_files = []
     for s in sessions:
-        out = build_map.build_session(s, a.colmap, a.flip_v)
+        try:
+            out = build_map.build_session(s, a.colmap, a.flip_v)
+        except Exception as e:
+            # 1セッションの失敗 (壊れたファイル・COLMAPの失敗) で計画全体を落とさない
+            print(f"  [error] {s.name}: {type(e).__name__}: {e} -> このセッションは飛ばします")
+            continue
         if out is not None:
             point_files.append(str(out))
     if not point_files:
