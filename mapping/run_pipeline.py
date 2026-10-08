@@ -24,6 +24,8 @@ def main():
     ap.add_argument("--skip-download", action="store_true", help="DL済みのローカル画像で回す")
     ap.add_argument("--skip-upload", action="store_true", help="Firestoreに書かず結果だけ見る")
     ap.add_argument("--key", default=str(HERE.parent / "forestry" / "serviceAccountKey.json"))
+    ap.add_argument("--export-3dgs", action="store_true",
+                    help="3D化できたセッションを 3DGS 学習用データ (gs_dataset) にも並べ直す (デモ用)")
     a = ap.parse_args()
 
     plan_dir = Path(a.out) / a.plan
@@ -48,6 +50,12 @@ def main():
     if not point_files:
         print("3D化できたセッションがありません (基準点をセットしたセッションが必要)")
         sys.exit(1)
+
+    # 2b. (任意) 3DGS 学習用データ。幹マップとは独立なので失敗しても先へ進む
+    if a.export_3dgs:
+        import export_3dgs
+        for pf in point_files:
+            export_3dgs.export_session(Path(pf).parent)
 
     # 3. 幹マップ抽出
     trees_out = plan_dir / "trees_map.json"
